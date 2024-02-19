@@ -25,16 +25,20 @@ export const useEventStore = defineStore("event", () => {
     }
   };
 
-  const editEvent = (index) => {
-    const editData = { ...eventsWithMessages.value[index] };
-    customerName.value = editData.event;
-    userId.value = editData.userId;
-    email.value = editData.email;
-    timezone.value = editData.timezone;
+const editEvent = (index) => {
+    if (index !== null) {
+      const indexId = eventsWithMessages.value.findIndex(event => event.userId === userId.value);
 
-    const updatedEvents = [...eventsWithMessages.value];
-    updatedEvents[index] = editData;
-    eventsWithMessages.value = updatedEvents;
+      if (indexId !== -1) {
+        eventsWithMessages.value[indexId] = {
+          event: customerName.value,
+          message: model.value,
+          userId: userId.value,
+          email: email.value,
+          timezone: timezone.value,
+        };
+      }
+    }
   };
 
   const deleteEvent = (index) => {
